@@ -108,15 +108,15 @@ export default function Home() {
       <section className="pdf-hero">
         <div className="pdf-hero-copy">
           <p className="eyebrow">
-            <Sparkles size={15} /> Welcome,
+            <Sparkles size={15} /> Welcome to Numerixx
           </p>
           <h1>
-            I’m Dr.
+            Strategic Pattern Analysis
             <br />
-            <em>Harpreet Kaur</em>
+            <em>for better Decisions, Behavior &amp; Growth.</em>
           </h1>
           <p className="hero-role">
-            Founder &amp; Strategic Consultant
+            Founded by Harpreet Kaur
           </p>
           <div className="ornament">
             <span />✦<span />
@@ -144,8 +144,8 @@ export default function Home() {
       </section>
       <section className="pdf-approach">
         <img
-          src="/assets/numerology-journal.jpg"
-          alt="Numerology journal and crystals"
+          src="/assets/my-approach.jpg"
+          alt="My approach - Ancient wisdom books, numerical pattern wheel and notebook"
         />
         <div>
           <p className="eyebrow">
@@ -196,8 +196,8 @@ export default function Home() {
             </p>
           </div>
           <img
-            src="/assets/numerixx-stilllife.jpg"
-            alt="Books, candle, flowers and crystal"
+            src="/assets/explore-your-patterns.png"
+            alt="Personal guidance - woman exploring numerical pattern cycles"
           />
         </div>
         <div className="pattern-grid">
@@ -223,15 +223,15 @@ export default function Home() {
       <section className="section guidance">
         <div className="guidance-head">
           <div>
-            <p className="eyebrow">Business & life intelligence</p>
+            <p className="eyebrow">Business &amp; life intelligence</p>
             <h2>
-              Insight and Guidance for Navigating the{' '}
-              <em>Professional and Personal Areas of Life</em> that Matter Most.
+              Strategic insight for the decisions, relationships and{' '}
+              <em>behavioural dynamics that shape professional and personal growth.</em>
             </h2>
           </div>
           <img
             src="/assets/business-life-intelligence.png"
-            alt="A winding map path through green and golden hills toward a compass"
+            alt="Business and Life Intelligence visual showing executive, city skyline, and serene landscape"
           />
         </div>
         <div className="guidance-grid">

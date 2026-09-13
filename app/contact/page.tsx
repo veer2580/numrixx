@@ -77,7 +77,7 @@ function getGoogleCalendarUrl(date: Date, startTimeStr: string, name: string, se
   const toGCalString = (d: Date) => d.toISOString().replace(/-|:|\.\d+/g, '');
   const title = encodeURIComponent(`Numerixx Consultation: ${service} (${name || 'Client'})`);
   const details = encodeURIComponent(
-    `Virtual 1:1 Consultation with Numerixx Consulting (Google Meet).\nClient: ${name}\nService: ${service}\nPlatform: Google Meet\nHelpline: +91 98765 43210`
+    `Virtual 1:1 Consultation with Numerixx Consulting (Google Meet).\nClient: ${name}\nService: ${service}\nPlatform: Google Meet\nHelpline: +91 99833 05333`
   );
   const location = encodeURIComponent('Google Meet');
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${toGCalString(start)}/${toGCalString(end)}&details=${details}&location=${location}`;
@@ -190,26 +190,22 @@ export default function Contact() {
           <p className="eyebrow">
             <Sparkles size={14} /> We&apos;re here for you
           </p>
-          <h1>
-            Let&apos;s Connect &amp;
-            <br />
-            Create Clarity Together
-          </h1>
+          <h1>Let&apos;s Connect</h1>
           <div className="gold-rule" />
           <p>
-            Have a question, need guidance, or ready to start your journey? We&apos;d love to hear
-            from you.
+            Have a question, want to explore a consultation, or simply unsure where to begin? Reach
+            out and we&apos;ll help you find the right place to start.
           </p>
           <div className="contact-highlights">
             <div>
               <Phone />
               <strong>Phone</strong>
-              <span>+91 98765 43210</span>
+              <span>+91 99833 05333</span>
             </div>
             <div>
               <Mail />
               <strong>Email</strong>
-              <span>hello@numerixx.com</span>
+              <span>numerixx99@gmail.com</span>
             </div>
             <div>
               <Clock3 />
@@ -287,9 +283,9 @@ export default function Contact() {
                 <a
                   href={
                     String(title).includes('WhatsApp')
-                      ? 'https://wa.me/919876543210'
+                      ? 'https://wa.me/919983305333'
                       : String(title).includes('Email')
-                        ? 'mailto:hello@numerixx.com'
+                        ? 'mailto:numerixx99@gmail.com'
                         : '#booking'
                   }
                   key={String(title)}
@@ -477,11 +473,11 @@ export default function Contact() {
             <h2>Our Location</h2>
             <div className="location-address">
               <span><MapPin /></span>
-              <div><small>Studio address</small><strong>Numerixx Consulting</strong><p>Mohali, Punjab, India</p></div>
+              <div><small>Studio address</small><strong>Numerixx Consulting</strong><p>Jaipur, Rajasthan, India</p></div>
             </div>
             <div className="location-service-note"><MessageCircle /><p><strong>Online consultations available</strong><span>Serving clients across India and worldwide.</span></p></div>
             <a
-              href="https://maps.google.com/?q=Mohali,+Punjab,+India"
+              href="https://maps.google.com/?q=Jaipur,+Rajasthan,+India"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -490,8 +486,8 @@ export default function Contact() {
           </div>
           <div className="location-map-wrap">
             <iframe
-              title="Numerixx Consulting Location Map - Mohali, Punjab"
-              src="https://maps.google.com/maps?q=Mohali%2C%20Punjab%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              title="Numerixx Consulting Location Map - Jaipur, Rajasthan"
+              src="https://maps.google.com/maps?q=Jaipur%2C%20Rajasthan%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
@@ -501,8 +497,8 @@ export default function Contact() {
             <p className="location-label"><Sparkles /> Connect with us</p>
             <h2>Our Office</h2>
             <div className="office-detail-list">
-              <a href="tel:+919876543210"><span><Phone /></span><div><small>Call us</small><strong>+91 98765 43210</strong></div></a>
-              <a href="mailto:hello@numerixx.com"><span><Mail /></span><div><small>Email us</small><strong>hello@numerixx.com</strong></div></a>
+              <a href="tel:+919983305333"><span><Phone /></span><div><small>Call us</small><strong>+91 99833 05333</strong></div></a>
+              <a href="mailto:numerixx99@gmail.com"><span><Mail /></span><div><small>Email us</small><strong>numerixx99@gmail.com</strong></div></a>
               <div><span><Clock3 /></span><div><small>Working hours</small><strong>Mon - Sat · 10AM - 7PM</strong><em>Indian Standard Time</em></div></div>
             </div>
           </div>
@@ -583,7 +579,7 @@ export default function Contact() {
                         <input
                           required
                           type="tel"
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 99833 05333"
                           value={bookingForm.phone}
                           onChange={e => setBookingForm({ ...bookingForm, phone: e.target.value })}
                         />
@@ -640,7 +636,7 @@ export default function Contact() {
                       </button>
 
                       <a
-                        href={`https://wa.me/919876543210?text=${encodeURIComponent(
+                        href={`https://wa.me/919983305333?text=${encodeURIComponent(
                           `Hello Numerixx, I want to book a consultation session for ${sessionCardDate} at ${selectedTime} (${bookingForm.service}). My name is ${bookingForm.name || 'a client'}.`
                         )}`}
                         target="_blank"
@@ -684,13 +680,13 @@ export default function Contact() {
                   </div>
                   <div>
                     <strong>Contact Phone</strong>
-                    <span>{bookingForm.phone || '+91 98765 43210'}</span>
+                    <span>{bookingForm.phone || '+91 99833 05333'}</span>
                   </div>
                 </div>
 
                 <div className="booking-modal-actions" style={{ width: '100%', marginTop: '6px' }}>
                   <a
-                    href={`https://wa.me/919876543210?text=${encodeURIComponent(
+                    href={`https://wa.me/919983305333?text=${encodeURIComponent(
                       `Hello Numerixx Consulting! I have confirmed my session booking (Ref: ${bookingRef}) for ${sessionCardDate} at ${selectedTime} via Google Meet.\n\n• Name: ${bookingForm.name}\n• Service: ${bookingForm.service}\n• Phone: ${bookingForm.phone}\n• Email: ${bookingForm.email}${bookingForm.notes ? `\n• Notes: ${bookingForm.notes}` : ''}`
                     )}`}
                     target="_blank"
