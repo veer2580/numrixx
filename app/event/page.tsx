@@ -10,10 +10,10 @@ const currentEvent = {
   location: <>Numerixx Consulting<br/>Jaipur, Rajasthan, India</>,
 };
 const past = [
-  ['/assets/past-event-1.png','12 April 2025','Unlocking Life Purpose Through Numbers','An inspiring session on discovering life purpose and direction.'],
-  ['/assets/past-event-2.png','22 March 2025','Numerology & Relationships Workshop','Exploring compatibility, relationships and the power of understanding.'],
-  ['/assets/past-event-3.png','15 February 2025','Personal Year Predictions Masterclass','Deep dive into personal year cycles and future opportunities.'],
-  ['/assets/past-event-4.png','18 January 2025','Numerology for Career & Success','Align your numbers with your career path and professional growth.'],
+  ['/assets/past-event-1.png','12 April 2025','Numbers & Self-Awareness','An interactive session exploring numerical insights, reflection and greater self-awareness.'],
+  ['/assets/past-event-2.png','22 March 2025','Relationship Dynamics','Exploring compatibility, communication and the dynamics that shape meaningful relationships.'],
+  ['/assets/past-event-3.png','15 February 2025','Understanding Personal Year Cycles','Exploring personal cycles and how they can offer perspective for planning and decision-making.'],
+  ['/assets/past-event-4.png','18 January 2025','Career & Professional Growth','Exploring numerical insights to gain perspective on career choices, strengths and professional direction.'],
 ];
 
 export default function Event(){return <main><SiteHeader/>
