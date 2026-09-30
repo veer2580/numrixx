@@ -658,7 +658,7 @@ export default function Contact() {
                 <span className="booking-ref-tag">Booking Ref: {bookingRef}</span>
                 <p>
                   Thank you, <strong>{bookingForm.name || 'Client'}</strong>. Your consultation with{' '}
-                  <strong>Dr. Harpreet Kaur</strong> has been reserved.
+                  <strong>Harpreet Kaur</strong> has been reserved.
                 </p>
 
                 <div className="booking-success-summary">

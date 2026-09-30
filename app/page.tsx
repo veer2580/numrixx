@@ -309,7 +309,10 @@ export default function Home() {
               <span>Happy Clients Guided</span>
             </article>
           </div>
-          <img src="/assets/contact-hero-harpreet.png" alt="Harpreet Kaur" />
+          <img
+            src="/assets/numerical-insights-journey.png"
+            alt="Discover How Numerical Insights Can Offer a Fresh Perspective"
+          />
           <div className="perspective-copy">
             <p className="eyebrow">
               <Sparkles size={14} /> Numbers · Insight · Perspective
@@ -319,12 +322,12 @@ export default function Home() {
               Your <em>Strengths, Challenges and Life Journey.</em>
             </h2>
             <p>
-              Numerology reveals patterns. Insight creates perspective.
+              Numbers reveal patterns. Insight creates perspective.
               Perspective empowers change.
             </p>
             <strong>Real Experiences.</strong>
             <Link className="button" href="/contact">
-              Book Your Numerology Session <ArrowUpRight size={16} />
+              Book Your Session <ArrowUpRight size={16} />
             </Link>
           </div>
         </div>
