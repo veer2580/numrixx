@@ -5,30 +5,39 @@ import { useEffect, useState } from 'react';
 const items = [
   {
     image: '/assets/client-reflection.jpg',
-    name: 'Deepika Sharma',
-    role: 'Entrepreneur',
-    initials: 'DS',
+    name: 'Gaurav Rahar',
+    role: 'Client Review · Google',
+    initials: 'GR',
     quote:
-      'My numerology reading with Harpreet Kaur was truly eye-opening. It helped me understand my strengths, weaknesses, and purpose with such clarity. The guidance brought direction to my career, improved my relationships, and boosted my confidence.',
-    note: 'It’s not just about numbers—it’s about real transformation.',
+      'Got numerology readings for myself and my daughter, and I must say it was really insightful. The guidance not only helped us understand our strengths but also gave us a clear idea of what to focus on in the coming years. Highly recommend for anyone looking for clarity and direction!',
+    note: 'Clarity and direction for personal and family life.',
   },
   {
     image: '/assets/offer-3.jpg',
-    name: 'Riya Mehta',
-    role: 'Creative Professional',
-    initials: 'RM',
+    name: 'Ankita Pal',
+    role: 'Client Review · Google',
+    initials: 'AP',
     quote:
-      'The consultation gave me a fresh perspective on patterns I had repeated for years. I left the session feeling calmer, clearer and more confident about the choices ahead.',
-    note: 'A thoughtful and deeply personal experience.',
+      'I believe in numerology and considering my own personal life experience I am sharing ths review bcz I saw th results yes I do and continue to believe in numerology I suggest to approach expert and genuine numerologist Harpreet Kaur and i get experience with her Definitely u wll see great results 😊',
+    note: 'Genuine guidance and tangible results.',
+  },
+  {
+    image: '/assets/offer-5.jpg',
+    name: 'Dr Dheerja Babbar Gaba',
+    role: 'Local Guide · Google Review',
+    initials: 'DG',
+    quote:
+      'Preeti is an incredible numerologist .. she guides , answers all your queries so patiently.. & gives you easy tips to follow .. I recommend her to everyone 😊',
+    note: 'Patient guidance with practical, easy-to-follow tips.',
   },
   {
     image: '/assets/offer-7.jpg',
-    name: 'Arjun Malhotra',
-    role: 'Business Owner',
-    initials: 'AM',
+    name: 'Bhavishya Moyal',
+    role: 'Client Review · Google',
+    initials: 'BM',
     quote:
-      'The business guidance helped me understand my decision-making style and approach an important transition with greater structure. The insights were practical and easy to apply.',
-    note: 'I now move forward with much more clarity.',
+      "Mam, I'm absolutely thrilled with the bracelet! It has completely energized me, and I can feel a remarkable difference. I've never experienced such a beautiful, genuine product before. This bracelet has transformed my perspective entirely. Thank you for guiding it to me. Your remedies are 100% effective, and this proves that energies are real. I'm truly grateful for your guidance.",
+    note: 'Transformative experience and genuine products.',
   },
 ];
 

@@ -27,7 +27,7 @@ const journeys = [
   [
     '01',
     'Business Strategy',
-    'Understand behavioural and numerical patterns that may influence leadership and business direction.',
+    'Understand business dynamics, leadership tendencies and numerical influences to support strategic direction and growth.',
   ],
   [
     '02',
@@ -36,8 +36,8 @@ const journeys = [
   ],
   [
     '03',
-    'Business Relationships',
-    'Explore communication styles and partnership dynamics.',
+    'Founder & Leadership Insight',
+    'Explore leadership style, decision-making tendencies and areas that influence how you lead and manage.',
   ],
   [
     '04',
@@ -46,8 +46,8 @@ const journeys = [
   ],
   [
     '05',
-    'Relationships',
-    'Understand compatibility and recurring dynamics in important relationships.',
+    'Business Partnerships',
+    'Examine partnership dynamics, communication styles and complementary strengths to support effective professional collaboration.',
   ],
   [
     '06',
@@ -225,7 +225,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">Business &amp; life intelligence</p>
             <h2>
-              Strategic insight for the decisions, relationships and{' '}
+              Understand your patterns to improve decision-making, relationships and the{' '}
               <em>behavioural dynamics that shape professional and personal growth.</em>
             </h2>
           </div>
@@ -299,20 +299,22 @@ export default function Home() {
       </section>
       <section className="home-reflections">
         <div className="perspective-intro">
-          <div className="perspective-stats">
-            <article>
-              <strong>6+</strong>
-              <span>Years of Numerology Experience</span>
-            </article>
-            <article>
-              <strong>300+</strong>
-              <span>Happy Clients Guided</span>
-            </article>
+          <div className="perspective-visual">
+            <img
+              src="/assets/numerical-insights-journey.png"
+              alt="Discover How Numerical Insights Can Offer a Fresh Perspective"
+            />
+            <div className="perspective-stats">
+              <article>
+                <strong>3+</strong>
+                <span>Years of Numerology Experience</span>
+              </article>
+              <article>
+                <strong>300+</strong>
+                <span>Happy Clients Guided</span>
+              </article>
+            </div>
           </div>
-          <img
-            src="/assets/numerical-insights-journey.png"
-            alt="Discover How Numerical Insights Can Offer a Fresh Perspective"
-          />
           <div className="perspective-copy">
             <p className="eyebrow">
               <Sparkles size={14} /> Numbers · Insight · Perspective

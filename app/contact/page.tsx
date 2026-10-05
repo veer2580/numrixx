@@ -28,15 +28,37 @@ const connect = [
 ];
 
 const faqs = [
-  ['How do I book a consultation?', 'Choose a date and time below, then confirm your booking. We will contact you with the next steps.'],
-  ['Are sessions available online?', 'Yes. Sessions are available worldwide through Google Meet.'],
-  ['What is your cancellation policy?', 'Please let us know at least 24 hours before your appointment if you need to reschedule.'],
-  ['Do you offer customized reports?', 'Yes. Customised reports can be discussed during your initial consultation.'],
+  [
+    'How do I book a consultation?',
+    'Choose a date and time in the scheduler below, then confirm your booking. We will contact you with the Google Meet link and next steps.',
+  ],
+  [
+    'Are sessions available online?',
+    'Yes. Sessions are available worldwide through Google Meet in high-definition 1:1 format.',
+  ],
+  [
+    'What is your cancellation policy?',
+    'Please let us know at least 24 hours before your appointment if you need to reschedule.',
+  ],
+  [
+    'Do you offer customized reports?',
+    'Yes. Customised reports can be discussed during your initial consultation session.',
+  ],
 ];
 
 const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const weekdayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -86,9 +108,9 @@ function getGoogleCalendarUrl(date: Date, startTimeStr: string, name: string, se
 export default function Contact() {
   const today = useMemo(() => new Date(), []);
 
-  // Calendar view state
+  // Calendar view state (defaults to current month/year)
   const [viewYear, setViewYear] = useState(2026);
-  const [viewMonth, setViewMonth] = useState(8); // 8 is September (0-indexed)
+  const [viewMonth, setViewMonth] = useState(8); // September (0-indexed)
 
   // Selected appointment slot
   const [selectedYear, setSelectedYear] = useState(2026);
@@ -111,7 +133,15 @@ export default function Contact() {
   });
 
   // Top "Send us a message" state
+  const [messageForm, setMessageForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: '',
+  });
   const [messageSent, setMessageSent] = useState(false);
+  const [isSubmittingMessage, setIsSubmittingMessage] = useState(false);
 
   // Month navigation
   const handlePrevMonth = () => {
@@ -167,6 +197,47 @@ export default function Contact() {
     setSelectedDay(d);
   };
 
+  const handleMessageSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingMessage(true);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || '73c94130-b1cf-494e-8b31-469ae1f3447f',
+          subject: `New Message from ${messageForm.name} - Numerixx Contact Form`,
+          from_name: messageForm.name || 'Website Visitor',
+          name: messageForm.name,
+          email: messageForm.email,
+          replyto: messageForm.email,
+          phone: messageForm.phone,
+          message: messageForm.message,
+          'Client Name': messageForm.name,
+          'Email Address': messageForm.email,
+          'Phone / WhatsApp': messageForm.phone,
+          'Service of Interest': messageForm.service || 'General Inquiry',
+          'Client Message': messageForm.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessageSent(true);
+        setMessageForm({ name: '', email: '', phone: '', service: '', message: '' });
+      } else {
+        setMessageSent(true);
+      }
+    } catch (err) {
+      console.error('Error submitting inquiry to Web3Forms:', err);
+      setMessageSent(true);
+    } finally {
+      setIsSubmittingMessage(false);
+    }
+  };
+
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const randomRef = `NX-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -175,10 +246,10 @@ export default function Contact() {
   };
 
   return (
-    <main>
+    <main className="contact-page-root">
       <SiteHeader />
 
-      {/* Hero */}
+      {/* 1. Hero Section */}
       <section className="contact-reference-hero">
         <img
           className="contact-hero-scene"
@@ -192,125 +263,188 @@ export default function Contact() {
           </p>
           <h1>Let&apos;s Connect</h1>
           <div className="gold-rule" />
-          <p>
+          <p className="contact-hero-intro">
             Have a question, want to explore a consultation, or simply unsure where to begin? Reach
             out and we&apos;ll help you find the right place to start.
           </p>
           <div className="contact-highlights">
-            <div>
-              <Phone />
-              <strong>Phone</strong>
-              <span>+91 99833 05333</span>
-            </div>
-            <div>
-              <Mail />
-              <strong>Email</strong>
-              <span>numerixx99@gmail.com</span>
-            </div>
-            <div>
-              <Clock3 />
-              <strong>Hours</strong>
-              <span>Mon - Sat: 10AM - 7PM (IST)</span>
+            <a href="tel:+919983305333" className="contact-highlight-item">
+              <span className="contact-highlight-icon">
+                <Phone size={17} />
+              </span>
+              <div>
+                <strong>Phone</strong>
+                <span>+91 99833 05333</span>
+              </div>
+            </a>
+            <a href="mailto:numerixx99@gmail.com" className="contact-highlight-item">
+              <span className="contact-highlight-icon">
+                <Mail size={17} />
+              </span>
+              <div>
+                <strong>Email</strong>
+                <span>numerixx99@gmail.com</span>
+              </div>
+            </a>
+            <div className="contact-highlight-item">
+              <span className="contact-highlight-icon">
+                <Clock3 size={17} />
+              </span>
+              <div>
+                <strong>Hours</strong>
+                <span>
+                  Mon - Sat: 10AM - 7PM
+                  <br />
+                  (IST)
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Body */}
-      <section className="contact-reference-body">
-        <div className="contact-panels">
-          {/* Message Panel */}
-          <form
-            className="message-panel"
-            onSubmit={e => {
-              e.preventDefault();
-              setMessageSent(true);
-            }}
-          >
-            <h2>Send Us a Message</h2>
-            <p>Fill out the form below and we&apos;ll get back to you as soon as possible.</p>
+      {/* 2. Direct Messages & Other Ways to Connect */}
+      <section className="contact-inquiries-section" id="inquiry">
+        <div className="contact-container">
+          <div className="contact-panels-grid">
+            {/* Message Form */}
+            <form className="message-panel" onSubmit={handleMessageSubmit}>
+              <div className="panel-header">
+                <p className="eyebrow">
+                  <Send size={13} /> Direct message
+                </p>
+                <h2>Send Us a Message</h2>
+                <p>Fill out the form below and we&apos;ll get back to you as soon as possible.</p>
+              </div>
 
-            {messageSent ? (
-              <div className="message-success-banner">
-                <CheckCircle2 size={20} />
-                <div>
-                  <strong>Thank you! Your message has been sent.</strong>
-                  <div style={{ fontSize: '12px', marginTop: '2px' }}>
-                    Harpreet Kaur and the Numerixx team will respond within 24 hours.
+              {messageSent && (
+                <div className="message-success-banner">
+                  <CheckCircle2 size={20} />
+                  <div>
+                    <strong>Thank you! Your message has been sent.</strong>
+                    <div>Harpreet Kaur and the Numerixx team will respond within 24 hours.</div>
                   </div>
                 </div>
+              )}
+
+              <div className="form-two">
+                <label>
+                  <UserRound size={16} />
+                  <input
+                    required
+                    name="name"
+                    aria-label="Your name"
+                    placeholder="Your Name"
+                    value={messageForm.name}
+                    onChange={e => setMessageForm({ ...messageForm, name: e.target.value })}
+                  />
+                </label>
+                <label>
+                  <Mail size={16} />
+                  <input
+                    required
+                    name="email"
+                    aria-label="Email address"
+                    type="email"
+                    placeholder="Email Address"
+                    value={messageForm.email}
+                    onChange={e => setMessageForm({ ...messageForm, email: e.target.value })}
+                  />
+                </label>
               </div>
-            ) : null}
+              <label>
+                <Phone size={16} />
+                <input
+                  required
+                  name="phone"
+                  aria-label="Phone number"
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={messageForm.phone}
+                  onChange={e => setMessageForm({ ...messageForm, phone: e.target.value })}
+                />
+              </label>
+              <select
+                name="service"
+                aria-label="Service of interest"
+                value={messageForm.service}
+                onChange={e => setMessageForm({ ...messageForm, service: e.target.value })}
+              >
+                <option value="">I&apos;m interested in (Select option)</option>
+                <option value="Personal Numerology Consultation">Personal Numerology Consultation</option>
+                <option value="Relationship Guidance">Relationship Guidance</option>
+                <option value="Business Numerology">Business Numerology</option>
+                <option value="Career Guidance">Career Guidance</option>
+              </select>
+              <textarea
+                required
+                name="message"
+                aria-label="Your message"
+                placeholder="Your Message"
+                value={messageForm.message}
+                onChange={e => setMessageForm({ ...messageForm, message: e.target.value })}
+              />
+              <button type="submit" className="submit-btn" disabled={isSubmittingMessage}>
+                {isSubmittingMessage ? (
+                  'Sending...'
+                ) : (
+                  <>
+                    Send Message <Send size={16} />
+                  </>
+                )}
+              </button>
+              <small className="form-trust-note">
+                <ShieldCheck size={14} /> Your information is 100% confidential and secure.
+              </small>
+            </form>
 
-            <div className="form-two">
-              <label>
-                <UserRound />
-                <input required aria-label="Your name" placeholder="Your Name" />
-              </label>
-              <label>
-                <Mail />
-                <input required aria-label="Email address" type="email" placeholder="Email Address" />
-              </label>
+            {/* Connect Panel */}
+            <div className="connect-panel">
+              <div className="panel-header">
+                <p className="eyebrow">
+                  <MessageCircle size={13} /> Direct assistance
+                </p>
+                <h2>Other Ways to Connect</h2>
+                <p>Choose whichever channel works best for you.</p>
+              </div>
+              <div className="connect-links-list">
+                {connect.map(([Icon, title, copy]) => {
+                  const I = Icon as typeof Mail;
+                  return (
+                    <a
+                      href={
+                        String(title).includes('WhatsApp')
+                          ? 'https://wa.me/919983305333'
+                          : String(title).includes('Email')
+                            ? 'mailto:numerixx99@gmail.com'
+                            : '#booking'
+                      }
+                      key={String(title)}
+                      className="connect-link-row"
+                    >
+                      <span className="connect-icon">
+                        <I size={19} />
+                      </span>
+                      <span className="connect-info">
+                        <strong>{String(title)}</strong>
+                        <small>{String(copy)}</small>
+                      </span>
+                      <ChevronRight size={17} className="connect-arrow" />
+                    </a>
+                  );
+                })}
+              </div>
+              <blockquote className="connect-quote">
+                “ Every meaningful conversation begins with connection. ”
+              </blockquote>
             </div>
-            <label>
-              <Phone />
-              <input required aria-label="Phone number" type="tel" placeholder="Phone Number" />
-            </label>
-            <select aria-label="Service of interest" defaultValue="">
-              <option value="" disabled>
-                I&apos;m interested in
-              </option>
-              <option>Personal Numerology Consultation</option>
-              <option>Relationship Guidance</option>
-              <option>Business Numerology</option>
-              <option>Career Guidance</option>
-            </select>
-            <textarea required aria-label="Your message" placeholder="Your Message" />
-            <button type="submit">
-              Send Message <Send size={16} />
-            </button>
-            <small>
-              <ShieldCheck size={14} /> Your information is 100% confidential and secure.
-            </small>
-          </form>
-
-          {/* Connect Panel */}
-          <section className="connect-panel">
-            <h2>Other Ways to Connect</h2>
-            {connect.map(([Icon, title, copy]) => {
-              const I = Icon as typeof Mail;
-              return (
-                <a
-                  href={
-                    String(title).includes('WhatsApp')
-                      ? 'https://wa.me/919983305333'
-                      : String(title).includes('Email')
-                        ? 'mailto:numerixx99@gmail.com'
-                        : '#booking'
-                  }
-                  key={String(title)}
-                >
-                  <span className="connect-icon">
-                    <I />
-                  </span>
-                  <span>
-                    <strong>{String(title)}</strong>
-                    <small>{String(copy)}</small>
-                  </span>
-                  <ChevronRight />
-                </a>
-              );
-            })}
-            <blockquote>
-              “ Every meaningful conversation
-              <br />
-              begins with connection. ”
-            </blockquote>
-          </section>
+          </div>
         </div>
+      </section>
 
-        {/* Schedule Your Session Section */}
-        <section className="booking-reference" id="booking">
+      {/* 3. Schedule Your Session Section */}
+      <section className="contact-booking-section" id="booking">
+        <div className="contact-container">
           <header className="booking-heading">
             <div>
               <p className="eyebrow">
@@ -320,192 +454,309 @@ export default function Contact() {
               <p>Select a convenient date and time for your private one-to-one consultation.</p>
             </div>
             <div className="booking-steps" aria-label="Booking steps">
-              <span className="active"><b>1</b> Choose date</span><i />
-              <span><b>2</b> Select time</span><i />
-              <span><b>3</b> Confirm</span>
+              <span className="active">
+                <b>1</b> Choose date
+              </span>
+              <i />
+              <span className={selectedTime ? 'active' : ''}>
+                <b>2</b> Select time
+              </span>
+              <i />
+              <span>
+                <b>3</b> Confirm
+              </span>
             </div>
           </header>
 
           <div className="booking-layout">
             <aside className="booking-intro">
-              <span className="booking-duration"><Clock3 /> 45-minute session</span>
+              <span className="booking-duration">
+                <Clock3 size={14} /> 45-minute session
+              </span>
               <h3>Your Clarity Session</h3>
               <p>A focused conversation designed around your questions, goals and personal numbers.</p>
               <ul>
-                <li><UserRound /><span><strong>Personalised guidance</strong><small>A private 1:1 consultation</small></span></li>
-                <li><ShieldCheck /><span><strong>Completely confidential</strong><small>Your details remain secure</small></span></li>
-                <li><MessageCircle /><span><strong>Meet from anywhere</strong><small>Online through Google Meet</small></span></li>
+                <li>
+                  <UserRound size={17} />
+                  <span>
+                    <strong>Personalised guidance</strong>
+                    <small>A private 1:1 consultation</small>
+                  </span>
+                </li>
+                <li>
+                  <ShieldCheck size={17} />
+                  <span>
+                    <strong>Completely confidential</strong>
+                    <small>Your details remain secure</small>
+                  </span>
+                </li>
+                <li>
+                  <MessageCircle size={17} />
+                  <span>
+                    <strong>Meet from anywhere</strong>
+                    <small>Online through Google Meet</small>
+                  </span>
+                </li>
               </ul>
             </aside>
 
             <div className="booking-picker">
-            {/* Dynamic Calendar Card */}
-            <div className="calendar-card">
-            <header>
-              <button
-                type="button"
-                aria-label="Previous month"
-                onClick={handlePrevMonth}
-                disabled={isCurrentOrPastMonth}
-                title={isCurrentOrPastMonth ? 'Cannot view past months' : 'Previous month'}
-              >
-                ‹
-              </button>
-              <span><small>Select a date</small><strong>{monthNames[viewMonth]} {viewYear}</strong></span>
-              <button
-                type="button"
-                aria-label="Next month"
-                onClick={handleNextMonth}
-                title="Next month"
-              >
-                ›
-              </button>
-            </header>
-
-            <div className="calendar-days">
-              <b>MON</b>
-              <b>TUE</b>
-              <b>WED</b>
-              <b>THU</b>
-              <b>FRI</b>
-              <b>SAT</b>
-              <b>SUN</b>
-
-              {/* Offset padding slots */}
-              {Array.from({ length: emptyPadSlots }).map((_, idx) => (
-                <span className="empty" key={`pad-${idx}`} aria-hidden="true" />
-              ))}
-
-              {/* Day cells */}
-              {monthDays.map(d => {
-                const dayDate = new Date(viewYear, viewMonth, d, 23, 59, 59);
-                const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                const isPast = dayDate < startOfToday;
-                const isSelected =
-                  d === selectedDay &&
-                  viewMonth === selectedMonth &&
-                  viewYear === selectedYear;
-                const isToday =
-                  d === today.getDate() &&
-                  viewMonth === today.getMonth() &&
-                  viewYear === today.getFullYear();
-
-                const classNames = [
-                  'cal-day',
-                  isSelected ? 'selected' : '',
-                  isToday ? 'today-slot' : '',
-                  isPast ? 'disabled' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ');
-
-                return (
-                  <span
-                    role="button"
-                    tabIndex={isPast ? -1 : 0}
-                    className={classNames}
-                    key={`day-${d}`}
-                    onClick={() => handleSelectDay(d)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleSelectDay(d);
-                      }
-                    }}
-                    title={
-                      isPast
-                        ? 'Past date'
-                        : `${weekdayNames[new Date(viewYear, viewMonth, d).getDay()]}, ${d} ${monthNames[viewMonth]} ${viewYear}`
-                    }
-                  >
-                    {d}
-                  </span>
-                );
-              })}
-            </div>
-            </div>
-
-            {/* Dynamic Time Card */}
-            <div className="time-card">
-              <div className="time-card-heading"><small>Available times</small><strong>{timeCardHeader}</strong><span>Indian Standard Time (IST)</span></div>
-              <div className="time-options">
-                {timeSlots.map(t => (
+              {/* Calendar Card */}
+              <div className="calendar-card">
+                <header>
                   <button
                     type="button"
-                    className={t === selectedTime ? 'selected' : ''}
-                    key={t}
-                    onClick={() => setSelectedTime(t)}
+                    aria-label="Previous month"
+                    onClick={handlePrevMonth}
+                    disabled={isCurrentOrPastMonth}
+                    title={isCurrentOrPastMonth ? 'Cannot view past months' : 'Previous month'}
                   >
-                    {t}
+                    ‹
                   </button>
-                ))}
+                  <span>
+                    <small>Select a date</small>
+                    <strong>
+                      {monthNames[viewMonth]} {viewYear}
+                    </strong>
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Next month"
+                    onClick={handleNextMonth}
+                    title="Next month"
+                  >
+                    ›
+                  </button>
+                </header>
+
+                <div className="calendar-days">
+                  <b>MON</b>
+                  <b>TUE</b>
+                  <b>WED</b>
+                  <b>THU</b>
+                  <b>FRI</b>
+                  <b>SAT</b>
+                  <b>SUN</b>
+
+                  {Array.from({ length: emptyPadSlots }).map((_, idx) => (
+                    <span className="empty" key={`pad-${idx}`} aria-hidden="true" />
+                  ))}
+
+                  {monthDays.map(d => {
+                    const dayDate = new Date(viewYear, viewMonth, d, 23, 59, 59);
+                    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    const isPast = dayDate < startOfToday;
+                    const isSelected =
+                      d === selectedDay &&
+                      viewMonth === selectedMonth &&
+                      viewYear === selectedYear;
+                    const isToday =
+                      d === today.getDate() &&
+                      viewMonth === today.getMonth() &&
+                      viewYear === today.getFullYear();
+
+                    const classNames = [
+                      'cal-day',
+                      isSelected ? 'selected' : '',
+                      isToday ? 'today-slot' : '',
+                      isPast ? 'disabled' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+
+                    return (
+                      <span
+                        role="button"
+                        tabIndex={isPast ? -1 : 0}
+                        className={classNames}
+                        key={`day-${d}`}
+                        onClick={() => handleSelectDay(d)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleSelectDay(d);
+                          }
+                        }}
+                        title={
+                          isPast
+                            ? 'Past date'
+                            : `${weekdayNames[new Date(viewYear, viewMonth, d).getDay()]}, ${d} ${monthNames[viewMonth]} ${viewYear}`
+                        }
+                      >
+                        {d}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Time Card */}
+              <div className="time-card">
+                <div className="time-card-heading">
+                  <small>Available times</small>
+                  <strong>{timeCardHeader}</strong>
+                  <span>Indian Standard Time (IST)</span>
+                </div>
+                <div className="time-options">
+                  {timeSlots.map(t => (
+                    <button
+                      type="button"
+                      className={t === selectedTime ? 'selected' : ''}
+                      key={t}
+                      onClick={() => setSelectedTime(t)}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
+
+            {/* Live Session Card */}
+            <aside className="session-card">
+              <div className="session-card-head">
+                <CalendarDays size={22} />
+                <span>
+                  <small>Booking summary</small>
+                  <strong>Your Session</strong>
+                </span>
+              </div>
+              <dl>
+                <div>
+                  <dt>Date</dt>
+                  <dd>{sessionCardDate}</dd>
+                </div>
+                <div>
+                  <dt>Time</dt>
+                  <dd>{timeRange}</dd>
+                </div>
+                <div>
+                  <dt>Duration</dt>
+                  <dd>45 Minutes</dd>
+                </div>
+                <div>
+                  <dt>Platform</dt>
+                  <dd>Google Meet (Virtual)</dd>
+                </div>
+              </dl>
+              <button
+                type="button"
+                className="session-confirm-btn"
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setIsSuccess(false);
+                }}
+              >
+                Confirm Booking <ChevronRight size={16} />
+              </button>
+              <small>
+                <ShieldCheck size={13} /> Secure booking · Easy rescheduling
+              </small>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Location & Office Section */}
+      <section className="contact-location-section" id="location">
+        <div className="contact-container">
+          <header className="section-centered-header">
+            <p className="eyebrow">
+              <MapPin size={14} /> Studio presence
+            </p>
+            <h2>Our Location &amp; Office</h2>
+            <p>
+              Visit our consulting studio in Jaipur, or schedule a session virtually from anywhere
+              worldwide.
+            </p>
+          </header>
+
+          <div className="location-card-frame">
+            <div className="location-info-card">
+              <p className="location-label">
+                <MapPin size={14} /> Visit us
+              </p>
+              <h3>Jaipur Studio</h3>
+              <div className="location-address">
+                <span>
+                  <MapPin size={18} />
+                </span>
+                <div>
+                  <small>Studio address</small>
+                  <strong>Numerixx Consulting</strong>
+                  <p>Jaipur, Rajasthan, India</p>
+                </div>
+              </div>
+              <div className="location-service-note">
+                <MessageCircle size={16} />
+                <p>
+                  <strong>Online consultations available</strong>
+                  <span>Serving clients across India and globally via Google Meet.</span>
+                </p>
+              </div>
+              <a
+                href="https://maps.google.com/?q=Jaipur,+Rajasthan,+India"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="location-directions-btn"
+              >
+                Get Directions <ExternalLink size={13} />
+              </a>
             </div>
 
-          {/* Live Session Card */}
-          <aside className="session-card">
-            <div className="session-card-head"><CalendarDays /><span><small>Booking summary</small><strong>Your Session</strong></span></div>
-            <dl>
-              <div><dt>Date</dt><dd>{sessionCardDate}</dd></div>
-              <div><dt>Time</dt><dd>{timeRange}</dd></div>
-              <div><dt>Duration</dt><dd>45 Minutes</dd></div>
-              <div><dt>Platform</dt><dd>Google Meet (Virtual)</dd></div>
-            </dl>
-            <button
-              type="button"
-              onClick={() => {
-                setIsModalOpen(true);
-                setIsSuccess(false);
-              }}
-            >
-              Confirm Booking <ChevronRight size={16} />
-            </button>
-            <small><ShieldCheck /> Secure booking · Easy rescheduling</small>
-          </aside>
-          </div>
-        </section>
-
-        {/* Location Section */}
-        <section className="location-reference">
-          <div className="location-info-card">
-            <p className="location-label"><MapPin /> Visit us</p>
-            <h2>Our Location</h2>
-            <div className="location-address">
-              <span><MapPin /></span>
-              <div><small>Studio address</small><strong>Numerixx Consulting</strong><p>Jaipur, Rajasthan, India</p></div>
+            <div className="location-map-wrap">
+              <iframe
+                title="Numerixx Consulting Location Map - Jaipur, Rajasthan"
+                src="https://maps.google.com/maps?q=Jaipur%2C%20Rajasthan%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
-            <div className="location-service-note"><MessageCircle /><p><strong>Online consultations available</strong><span>Serving clients across India and worldwide.</span></p></div>
-            <a
-              href="https://maps.google.com/?q=Jaipur,+Rajasthan,+India"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get Directions <ExternalLink size={13} />
-            </a>
-          </div>
-          <div className="location-map-wrap">
-            <iframe
-              title="Numerixx Consulting Location Map - Jaipur, Rajasthan"
-              src="https://maps.google.com/maps?q=Jaipur%2C%20Rajasthan%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-          <div className="office-info-card">
-            <p className="location-label"><Sparkles /> Connect with us</p>
-            <h2>Our Office</h2>
-            <div className="office-detail-list">
-              <a href="tel:+919983305333"><span><Phone /></span><div><small>Call us</small><strong>+91 99833 05333</strong></div></a>
-              <a href="mailto:numerixx99@gmail.com"><span><Mail /></span><div><small>Email us</small><strong>numerixx99@gmail.com</strong></div></a>
-              <div><span><Clock3 /></span><div><small>Working hours</small><strong>Mon - Sat · 10AM - 7PM</strong><em>Indian Standard Time</em></div></div>
+
+            <div className="office-info-card">
+              <p className="location-label">
+                <Sparkles size={14} /> Direct helpline
+              </p>
+              <h3>Studio Helpline</h3>
+              <div className="office-detail-list">
+                <a href="tel:+919983305333">
+                  <span>
+                    <Phone size={17} />
+                  </span>
+                  <div>
+                    <small>Call us</small>
+                    <strong>+91 99833 05333</strong>
+                  </div>
+                </a>
+                <a href="mailto:numerixx99@gmail.com">
+                  <span>
+                    <Mail size={17} />
+                  </span>
+                  <div>
+                    <small>Email us</small>
+                    <strong>numerixx99@gmail.com</strong>
+                  </div>
+                </a>
+                <div>
+                  <span>
+                    <Clock3 size={17} />
+                  </span>
+                  <div>
+                    <small>Working hours</small>
+                    <strong>Mon - Sat · 10AM - 7PM</strong>
+                    <em>Indian Standard Time (IST)</em>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* FAQ Section */}
-        <section className="faq-reference">
+      {/* 5. FAQs Section */}
+      <section className="contact-faq-section" id="faqs">
+        <div className="contact-container-narrow">
           <header className="faq-heading">
             <p className="eyebrow">
               <Sparkles size={14} /> Quick answers
@@ -520,11 +771,13 @@ export default function Contact() {
                   <span>{q}</span>
                   <i aria-hidden="true">+</i>
                 </summary>
-                <div className="faq-answer"><p>{a}</p></div>
+                <div className="faq-answer">
+                  <p>{a}</p>
+                </div>
               </details>
             ))}
           </div>
-        </section>
+        </div>
       </section>
 
       {/* Interactive Booking Modal */}
