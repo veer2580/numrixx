@@ -215,12 +215,8 @@ export default function Contact() {
           email: messageForm.email,
           replyto: messageForm.email,
           phone: messageForm.phone,
-          message: messageForm.message,
-          'Client Name': messageForm.name,
-          'Email Address': messageForm.email,
-          'Phone / WhatsApp': messageForm.phone,
           'Service of Interest': messageForm.service || 'General Inquiry',
-          'Client Message': messageForm.message,
+          message: messageForm.message,
         }),
       });
       const data = await res.json();
