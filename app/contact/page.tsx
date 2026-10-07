@@ -63,9 +63,27 @@ const monthNames = [
 const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const weekdayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const shortWeekdayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const timeSlots = ['10:00 AM', '11:30 AM', '02:00 PM', '03:30 PM', '04:30 PM', '06:00 PM'];
+const timeSlots = [
+  '10:00 AM',
+  '10:30 AM',
+  '11:00 AM',
+  '11:30 AM',
+  '12:00 PM',
+  '12:30 PM',
+  '01:00 PM',
+  '01:30 PM',
+  '02:00 PM',
+  '02:30 PM',
+  '03:00 PM',
+  '03:30 PM',
+  '04:00 PM',
+  '04:30 PM',
+  '05:00 PM',
+  '05:30 PM',
+  '06:00 PM',
+];
 
-function getEndTimeRange(startTime: string, durationMinutes = 45): string {
+function getEndTimeRange(startTime: string, durationMinutes = 30): string {
   const match = startTime.match(/(\d+):(\d+)\s*(AM|PM)/i);
   if (!match) return `${startTime} - ${startTime}`;
   let hours = parseInt(match[1], 10);
@@ -94,7 +112,7 @@ function getGoogleCalendarUrl(date: Date, startTimeStr: string, name: string, se
     if (match[3].toUpperCase() === 'AM' && hours === 12) hours = 0;
   }
   const start = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, mins);
-  const end = new Date(start.getTime() + 45 * 60 * 1000);
+  const end = new Date(start.getTime() + 30 * 60 * 1000);
 
   const toGCalString = (d: Date) => d.toISOString().replace(/-|:|\.\d+/g, '');
   const title = encodeURIComponent(`Numerixx Consultation: ${service} (${name || 'Client'})`);
@@ -116,7 +134,7 @@ export default function Contact() {
   const [selectedYear, setSelectedYear] = useState(2026);
   const [selectedMonth, setSelectedMonth] = useState(8);
   const [selectedDay, setSelectedDay] = useState(23);
-  const [selectedTime, setSelectedTime] = useState('02:00 PM');
+  const [selectedTime, setSelectedTime] = useState('10:00 AM');
 
   // Booking modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -181,7 +199,7 @@ export default function Contact() {
 
   const timeCardHeader = `${selectedWeekdayName}, ${selectedDay} ${selectedMonthName}`;
   const sessionCardDate = `${selectedShortWeekday}, ${selectedDay} ${selectedShortMonth} ${selectedYear}`;
-  const timeRange = getEndTimeRange(selectedTime, 45);
+  const timeRange = getEndTimeRange(selectedTime, 30);
 
   const isCurrentOrPastMonth =
     viewYear < today.getFullYear() ||
@@ -467,7 +485,7 @@ export default function Contact() {
           <div className="booking-layout">
             <aside className="booking-intro">
               <span className="booking-duration">
-                <Clock3 size={14} /> 45-minute session
+                <Clock3 size={14} /> 30-minute session
               </span>
               <h3>Your Clarity Session</h3>
               <p>A focused conversation designed around your questions, goals and personal numbers.</p>
@@ -628,7 +646,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <dt>Duration</dt>
-                  <dd>45 Minutes</dd>
+                  <dd>30 Minutes</dd>
                 </div>
                 <div>
                   <dt>Platform</dt>
@@ -806,7 +824,7 @@ export default function Contact() {
                   <div>
                     <strong>{sessionCardDate}</strong> at <strong>{timeRange} (IST)</strong>
                     <div style={{ fontSize: '11px', color: '#68598a', marginTop: '2px' }}>
-                      45-Minute 1:1 Consultation via Google Meet
+                      30-Minute 1:1 Consultation via Google Meet
                     </div>
                   </div>
                 </div>

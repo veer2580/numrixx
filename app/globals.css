@@ -803,18 +803,31 @@ nav a:first-child:after{display:none}.services-preview{background:linear-gradien
 }
 .time-options {
   display: grid;
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  max-height: 310px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.time-options::-webkit-scrollbar {
+  width: 4px;
+}
+.time-options::-webkit-scrollbar-thumb {
+  background: #d8cceb;
+  border-radius: 4px;
 }
 .time-options button {
-  padding: 9px 12px;
+  padding: 8px 6px;
   border-radius: 8px;
   border: 1px solid #ded5eb;
   background: #ffffff;
   color: #443764;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
+  text-align: center;
+  white-space: nowrap;
 }
 .time-options button:hover:not(.selected) {
   background: #f0e7fb;
